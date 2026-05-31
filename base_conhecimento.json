@@ -1,0 +1,23 @@
+
+[
+  {
+    "Setor": "TI",
+    "PalavrasChave": [ "senha", "sap", "internet", "rede", "servidor", "ad", "acesso" ],
+    "Regras": "Regra TI-01: Redefinicao de senha do SAP/AD via Portal de Autoatendimento. Urgencia Baixa.\nRegra TI-02: Queda de internet ou servidor. Urgencia Alta. Acionar nivel 3 de Redes."
+  },
+  {
+    "Setor": "MANUTENCAO",
+    "PalavrasChave": [ "geladeira", "graus", "camara", "temperatura", "esteira", "sensor", "alarme" ],
+    "Regras": "Regra MANUT-01: Camaras Frias com temp > 8 graus Celsios ou < 2 graus Celsios. Urgencia Alta (Risco lote). Isolar area.\nRegra MANUT-02: Falha em esteiras/sensores. Urgencia Media. Acionar Automacao."
+  },
+  {
+    "Setor": "VENDAS",
+    "PalavrasChave": [ "ipad", "amostra", "crm", "medico", "consultorio", "sincronizar", "representante" ],
+    "Regras": "Regra VEND-01: Falha CRM iPad/amostras. Urgencia Alta. Limpar cache e usar 4G.\nRegra VEND-02: Lote extra de amostras gratis. Urgencia Baixa. Exige aprovacao do Gerente."
+  },
+  {
+    "Setor": "QUALIDADE",
+    "PalavrasChave": [ "umidade", "insumo", "corpo estranho", "bula", "anvisa", "lote" ],
+    "Regras": "Regra QUAL-01: Corpo estranho/reprovacao de insumo. Urgencia Alta. Segregar lote na quarentena.\nRegra QUAL-02: Novo texto bula Anvisa. Urgencia Media. Enviar para Artes Graficas."
+  }
+]

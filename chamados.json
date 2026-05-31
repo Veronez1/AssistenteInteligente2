@@ -1,0 +1,18 @@
+[
+  {
+    "Id": 100,
+    "Descricao": "Bom dia, meu computador travou."
+  },
+  {
+    "Id": 101,
+    "Descricao": "Bom dia, estou no consultório do Dr. Marcos e o meu iPad não atualiza o estoque de amostras do remédio novo."
+  },
+  {
+    "Id": 102,
+    "Descricao": "URGENTE! O alarme da geladeira 03 disparou, o painel está mostrando 9.5 graus Celsius."
+  },
+  {
+    "Id": 104,
+    "Descricao": "Durante a inspeção, encontramos umidade no lote do insumo ativo. Interrompemos o processo."
+  }
+]
