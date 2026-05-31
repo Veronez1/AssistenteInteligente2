@@ -1,4 +1,3 @@
-
 [
   {
     "Setor": "TI",
@@ -8,7 +7,7 @@
   {
     "Setor": "MANUTENCAO",
     "PalavrasChave": [ "geladeira", "graus", "camara", "temperatura", "esteira", "sensor", "alarme" ],
-    "Regras": "Regra MANUT-01: Camaras Frias com temp > 8 graus Celsios ou < 2 graus Celsios. Urgencia Alta (Risco lote). Isolar area.\nRegra MANUT-02: Falha em esteiras/sensores. Urgencia Media. Acionar Automacao."
+    "Regras": "Regra MANUT-01: Camaras Frias com temp > 8 graus Celsios ou < 2 graus Celsios. Urgencia Alta (Risco lote). Isolar area.\n Regra MANUT-02: Falha em esteiras/sensores. Urgencia Media. Acionar Automacao."
   },
   {
     "Setor": "VENDAS",

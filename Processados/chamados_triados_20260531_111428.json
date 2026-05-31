@@ -1,0 +1,26 @@
+[
+  {
+    "setor": "TI",
+    "urgencia": "Baixa",
+    "resposta": "Reiniciar o computador imediatamente.",
+    "regras": ""
+  },
+  {
+    "setor": "VENDAS",
+    "urgencia": "Alta",
+    "resposta": "Limpar cache e usar 4G.",
+    "regras": "Regra VEND-01"
+  },
+  {
+    "setor": "MANUTENCAO",
+    "urgencia": "Alta",
+    "resposta": "Isolar área imediatamente.",
+    "regras": "Regra MANUT-01"
+  },
+  {
+    "setor": "QUALIDADE",
+    "urgencia": "Alta",
+    "resposta": "Segregar lote na quarentena.",
+    "regras": "Regra QUAL-01"
+  }
+]
