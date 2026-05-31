@@ -1,0 +1,22 @@
+[
+  {
+    "Id": 100,
+    "Descricao": "Boa tarde, meu sap não está abrindo."
+  },
+  {
+    "Id": 101,
+    "Descricao": "Bom dia, estou no consult�rio do Dr. Marcos e o meu iPad n�o atualiza o estoque de amostras do rem�dio novo."
+  },
+  {
+    "Id": 102,
+    "Descricao": "URGENTE! O alarme da geladeira 03 disparou, o painel est� mostrando 9.5 graus Celsius."
+  },
+  {
+    "Id": 104,
+    "Descricao": "Durante a inspe��o, encontramos umidade no lote do insumo ativo. Interrompemos o processo."
+  },
+  {
+    "Id": 105,
+    "Descricao": "Bom dia, meu computador travou."
+  }
+]

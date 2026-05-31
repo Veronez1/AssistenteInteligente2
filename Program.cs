@@ -2,10 +2,12 @@
 using OpenAI;
 using OpenAI.Chat;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Text.Encodings.Web;
 
 public class ChamadoEntrada
 {
@@ -22,6 +24,7 @@ public class BaseConhecimento
 
 public class ChamadoProcessado
 {
+    public int Id { get; set; }
     public string setor { get; set; } = "";
     public string urgencia { get; set; } = "";
     public string resposta { get; set; } = "";
@@ -32,66 +35,88 @@ class Program
 {
     static async Task Main()
     {
-        Console.WriteLine("Iniciando...");
-
         var apiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY");
         if (string.IsNullOrEmpty(apiKey))
         {
-            Console.WriteLine("Chave da API não encontrada nas variáveis de ambiente.");
+            Console.WriteLine("Chave da API não encontrada.");
             return;
         }
+
         var client = new OpenAIClient(apiKey);
         var chatClient = client.GetChatClient("gpt-4o-mini");
-        var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-        string jsonBaseConhecimento = await File.ReadAllTextAsync("base_conhecimento.json");
+        var options = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+            WriteIndented = true,
+            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+        };
 
+        string jsonBaseConhecimento = await File.ReadAllTextAsync("base_conhecimento.json");
         var bases = JsonSerializer.Deserialize<List<BaseConhecimento>>(jsonBaseConhecimento, options)
                     ?? new List<BaseConhecimento>();
-        string jsonChamados = await File.ReadAllTextAsync("chamados.json");
+
+        string jsonChamados = await File.ReadAllTextAsync(
+            Path.Combine("Pendentes", "chamados.json")
+        );
         var chamados = JsonSerializer.Deserialize<List<ChamadoEntrada>>(jsonChamados, options)
-                   ?? new List<ChamadoEntrada>();
+                       ?? new List<ChamadoEntrada>();
 
+        string regrasGerais = string.Join("\n", bases.Select(contexto => $"Setor: {contexto.Setor} | Regras: {contexto.Regras}"));
 
+        string systemPromptText = PromptBuilder.GerarInstrucoesDoSistema(regrasGerais);
 
+        var systemMessage = new SystemChatMessage(systemPromptText);
+        var chamadosProcessadosLista = new List<ChamadoProcessado>();
         foreach (ChamadoEntrada chamado in chamados)
         {
             Console.WriteLine($"\n Processando Ticket ID {chamado.Id}...");
 
-            string descricaoLower = chamado.Descricao.ToLower();
+            string userPromptText = PromptBuilder.GerarMensagemUsuario(chamado.Descricao, chamado.Id);
+            var userMessage = new UserChatMessage(userPromptText);
 
-            var contextoVencedor = bases
-              .Select(baseConhecimento => new
-              {
-                  Base = baseConhecimento,
-                  Pontuacao = baseConhecimento.PalavrasChave.Count(palavraChave => descricaoLower.Contains(palavraChave))
-              })
-              .OrderByDescending(candidato => candidato.Pontuacao)
-              .FirstOrDefault();
+            List<ChatMessage> mensagens = new List<ChatMessage>
+            {
+                systemMessage,
+                userMessage 
+            };
 
-            string regrasParaInjetar = contextoVencedor != null && contextoVencedor.Pontuacao > 0
-                                       ? "Setor: " + contextoVencedor.Base.Setor + "Regras: " + contextoVencedor.Base.Regras
-                                       : "Nenhuma regra específica encontrada. Analisar com base no bom senso corporativo.";
-
-            Console.WriteLine($"Contexto recuperado com sucesso: Setor {contextoVencedor?.Base.Setor ?? "N/A"} Regras {contextoVencedor?.Base.Regras ?? "N/A"} (Pontos: {contextoVencedor?.Pontuacao})");
-
-            string promptEnxuto = PromptBuilder.GerarPromptTriagem(regrasParaInjetar, chamado.Descricao);
-
-            var response = await chatClient.CompleteChatAsync(promptEnxuto);
+            var response = await chatClient.CompleteChatAsync(mensagens);
             string jsonRetorno = response.Value.Content[0].Text.Trim();
-            Console.WriteLine($"IA Ação: {jsonRetorno}");
+
+            if (jsonRetorno.StartsWith("```json"))
+            {
+                jsonRetorno = jsonRetorno.Replace("```json", "").Replace("```", "").Trim();
+            }
             try
             {
-                var resultado = JsonSerializer.Deserialize<ChamadoProcessado>(jsonRetorno, options) ?? new ChamadoProcessado();
+                var resultado = JsonSerializer.Deserialize<ChamadoProcessado>(jsonRetorno, options)
+                                ?? new ChamadoProcessado();
+                if (resultado != null)
+                {
+                    chamadosProcessadosLista.Add(resultado);
+                    Console.WriteLine($"[ID {chamado.Id}] Triagem concluída (Setor: {resultado.setor}).");
+                }
 
-                Console.WriteLine($"IA Setor Mapeado: {resultado.setor} | Urgência: {resultado.urgencia}");
-                Console.WriteLine($"IA Regra Usada:   {resultado.regras}");
-                Console.WriteLine($"IA Ação:          {resultado.resposta}");
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Erro ao converter JSON: " + ex.Message);
             }
         }
-        Console.WriteLine("\n === TRIAGEM FINALIZADA ===");
+        string diretorioDestino = Path.Combine(
+            Directory.GetCurrentDirectory(),
+            "Processados"
+        );
+
+        if (!Directory.Exists(diretorioDestino))
+        {
+            Directory.CreateDirectory(diretorioDestino);
+        }
+
+        string nomeArquivo = $"chamados_triados_{DateTime.Now:yyyyMMdd_HHmmss}.json";
+        string caminhoCompleto = Path.Combine(diretorioDestino, nomeArquivo);
+        string jsonFinal = JsonSerializer.Serialize(chamadosProcessadosLista, options);
+        await File.WriteAllTextAsync(caminhoCompleto, jsonFinal);
     }
 }
+

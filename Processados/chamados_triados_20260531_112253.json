@@ -1,0 +1,37 @@
+[
+  {
+    "Id": 100,
+    "setor": "TI",
+    "urgencia": "Baixa",
+    "resposta": "Redefinir senha do SAP via Portal de Autoatendimento.",
+    "regras": "Regra TI-01"
+  },
+  {
+    "Id": 101,
+    "setor": "VENDAS",
+    "urgencia": "Alta",
+    "resposta": "Limpar cache e usar 4G.",
+    "regras": "Regra VEND-01"
+  },
+  {
+    "Id": 102,
+    "setor": "MANUTENCAO",
+    "urgencia": "Alta",
+    "resposta": "Isolar area.",
+    "regras": "Regra MANUT-01"
+  },
+  {
+    "Id": 104,
+    "setor": "QUALIDADE",
+    "urgencia": "Alta",
+    "resposta": "Segregar lote na quarentena.",
+    "regras": "Regra QUAL-01"
+  },
+  {
+    "Id": 105,
+    "setor": "TI",
+    "urgencia": "Baixa",
+    "resposta": "Reiniciar o computador.",
+    "regras": ""
+  }
+]
