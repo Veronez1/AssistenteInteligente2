@@ -1,0 +1,8 @@
+﻿namespace AssistenteInteligente.Models
+{
+    public class ChamadoEntrada
+    {
+        public int Id { get; set; }
+        public string Descricao { get; set; } = "";
+    }
+}

@@ -1,6 +1,6 @@
-﻿namespace AssistenteInteligente
+﻿namespace AssistenteInteligente.Builders
 {
-    public static class PromptBuilder
+    public static class GeradorDePrompt
     {
         // 1. Esta parte será enviada como SystemChatMessage (Fica em Cache)
         public static string GerarInstrucoesDoSistema(string regrasGerais)
