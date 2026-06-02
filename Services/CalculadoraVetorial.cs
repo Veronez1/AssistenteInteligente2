@@ -4,7 +4,6 @@ namespace AssistenteInteligente.Services
 {
     public static class CalculadoraVetorial
     {
-        // Movendo o coração matemático para um serviço isolado
         public static float CalcularSimilaridadeCosseno(ReadOnlySpan<float> vetorA, ReadOnlySpan<float> vetorB)
         {
             float produtoEscalar = 0, magnitudeA = 0, magnitudeB = 0;

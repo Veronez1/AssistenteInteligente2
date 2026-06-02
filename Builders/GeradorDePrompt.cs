@@ -2,7 +2,6 @@
 {
     public static class GeradorDePrompt
     {
-        // 1. Esta parte será enviada como SystemChatMessage (Fica em Cache)
         public static string GerarInstrucoesDoSistema(string regrasGerais)
         {
             return $@"Você é o sistema inteligente de triagem de chamados corporativos.
