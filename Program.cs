@@ -17,7 +17,7 @@ namespace AssistenteInteligente
     class Program
     {
         static async Task Main()
-        {
+        { 
 
             var apiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY");
             if (string.IsNullOrEmpty(apiKey))
