@@ -1,1 +1,1 @@
-# AssistenteInteligente2
+Assistente de Suporte com Arquitetura RAG e Embeddings, desenvolvido em .NET e C# para automatizar a triagem e resolução de chamados. O sistema consome bases de conhecimento corporativas, vetoriza os dados utilizando a API da OpenAI (Embeddings) e aplica o padrão RAG (Retrieval-Augmented Generation) para sugerir soluções precisas baseadas estritamente nas regras internas da empresa, reduzindo o tempo de atendimento (SLA) e o esforço manual da equipe de Nível 1. Em .NET e C#.
